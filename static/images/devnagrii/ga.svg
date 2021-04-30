@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="64px"
+   height="64px"
+   id="svg2383"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   sodipodi:docname="devanagari_g.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <defs
+     id="defs2385">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 32 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="64 : 32 : 1"
+       inkscape:persp3d-origin="32 : 21.333333 : 1"
+       id="perspective2391" />
+    <inkscape:perspective
+       id="perspective2400"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective2415"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective2450"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective2485"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       sodipodi:type="inkscape:persp3d" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="5.5"
+     inkscape:cx="35.702721"
+     inkscape:cy="30.017422"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:document-units="px"
+     inkscape:grid-bbox="true"
+     inkscape:window-width="640"
+     inkscape:window-height="688"
+     inkscape:window-x="112"
+     inkscape:window-y="112" />
+  <metadata
+     id="metadata2388">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer">
+    <path
+       style="fill:#000000"
+       d="M 40.428405,60.127319 L 36.981454,56.653636 L 36.981454,32.793126 L 36.981454,8.9326191 L 31.619532,8.9326191 L 26.257609,8.9326191 L 26.257609,23.767099 C 26.257609,40.253995 26.158818,40.818355 23.011308,42.311946 C 20.646533,43.434106 19.323713,43.359059 16.299753,41.931183 C 13.226274,40.479926 5.6957699,32.934977 4.5256552,30.1345 C 3.0701545,26.650997 4.7162905,23.741739 8.1428517,23.741739 C 10.335579,23.741739 13.954924,26.183006 16.335007,29.267387 C 17.439067,30.698156 18.514737,31.878572 18.725384,31.890536 C 18.936032,31.902499 19.108379,26.741862 19.108379,20.422454 L 19.108379,8.9326191 L 15.903978,8.9326191 L 12.699576,8.9326191 L 8.8951925,5.1026743 L 5.0908087,1.2727294 L 29.092712,1.2727294 L 53.094616,1.2727294 L 56.641838,4.8473451 L 60.189062,8.4219601 L 54.529114,8.4219601 C 51.416143,8.4219601 47.804989,8.5678214 46.504328,8.7460967 L 44.13949,9.070234 L 44.007423,36.335619 L 43.875356,63.601002 L 40.428405,60.127319 z M 14.001786,33.966553 C 14.001786,32.675359 13.476394,31.40163 12.9438,31.40163 C 12.702867,31.40163 12.249544,31.880338 11.936415,32.465428 C 11.483017,33.312608 11.545246,33.726093 12.242025,34.496024 C 13.237046,35.59551 14.001786,35.365418 14.001786,33.966553 z"
+       id="path2491" />
+  </g>
+</svg>
