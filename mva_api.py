@@ -111,5 +111,90 @@ def render_letter(position=0,dpi=352,distance=6,chart_type='english'):
 		connection.send(url)
 		return letter,length_in_inch,accuit[position]
 
+#Getting Device DPI
+def get_dpi_current_device():
+	app = QApplication(sys.argv)
+	screen = app.screens()[0]
+	dpi = screen.physicalDotsPerInch()
+	return dpi
+
+#Sending Email with Total Score
+@app.route('/total_score')
+def send_mail():
+	print()
+
+	if ('name' in request.args and 'email' in request.args and 'distance' in request.args and 'age' in request.args and 'mobile_no' in request.args and 'gender' in request.args and 'chart_type' in request.args and 'left_eye' in request.args and 'right_eye' in request.args) and 'send_mail' in request.args:
+		print("changes made")
+		name=str(request.args['name'])
+		email=str(request.args['email'])
+		age=str(request.args['age'])
+		mobile_no=str(request.args['mobile_no'])
+		gender=str(request.args['gender'])
+		chart_type=str(request.args['chart_type'])
+		left_eye=str(request.args['left_eye'])
+		right_eye=str(request.args['right_eye'])
+		distance=float(request.args['distance'])
+		left_eye=left_eye.split('-')
+		right_eye=right_eye.split('-')
+		# print(left_eye,right_eye)
+		if(len(left_eye)==3):
+			left_eye='{numerator}/{denominator}-{minus}'.format(numerator=left_eye[0],denominator=left_eye[1],minus=left_eye[2])
+		elif(len(left_eye)==2):
+			left_eye='{numerator}/{denominator}'.format(numerator=left_eye[0],denominator=left_eye[1])
+		else:
+			left_eye = "please consult a doctor"
+		if(len(right_eye)==3):
+			right_eye='{numerator}/{denominator}-{minus}'.format(numerator=right_eye[0],denominator=right_eye[1],minus=right_eye[2])
+		elif(len(right_eye)==2):
+			right_eye='{numerator}/{denominator}'.format(numerator=right_eye[0],denominator=right_eye[1])
+		else:
+			right_eye = "please consult a doctor."
+
+
+		# print(name,email,age,mobile_no,gender,chart_type,left_eye,right_eye)
+		if(email==''):
+			print("Email is not provided")
+			return jsonify({'status':'success'})
+			
+		subject = "Acuity Result"
+		body = '''
+				Name:{name}
+				Age:{age}
+				Gender:{gender}
+				Testing Distance:{distance}
+				Chart Type:{chart_type}
+				Left Eye Score:{left_eye}
+				Right Eye Score:{right_eye}
+				Thank You for visiting Us
+				Team MVA-3
+				'''.format(name=name,distance=distance,age=age,gender=gender,chart_type=chart_type,left_eye=left_eye,right_eye=right_eye)
+		pprint(body)
+		receiver_email = email
+		sender_email = "kartik.chawda@somaiya.edu"
+		password = 'dhwani01101999'
+
+		# Create a multipart message and set headers
+		message = MIMEMultipart()
+		message["From"] = sender_email
+		message["To"] = receiver_email
+		message["Subject"] = subject
+		message["Bcc"] = receiver_email  # Recommended for mass emails
+		# Add body to email
+		message.attach(MIMEText(body, "plain"))
+		text = message.as_string()
+
+# Log in to server using secure context and send email
+		context = ssl.create_default_context()
+		with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+		    server.login(sender_email, password)
+		    server.sendmail(sender_email, receiver_email, text)
+		
+		insert_into_db(name,email,age,mobile_no,gender,chart_type,left_eye,right_eye,distance)
+		send_sms(msg="Hello your left eye acuity is {left_eye} and your right eye acuity is {right_eye}".format(left_eye=left_eye,right_eye=right_eye))
+		return jsonify({'status':'success'})
+	else:
+		print("All parameters not received in mail function")
+		return jsonify({'status':'failed'})
+
 if __name__=='__main__':
 	app.run(debug=False,port=1234,host='0.0.0.0',threaded=True)
