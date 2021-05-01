@@ -2,6 +2,12 @@ from PIL import Image, ImageDraw, ImageFont
 import socket
 import sys
 from flask import Flask,jsonify,request
+from PyQt5.QtWidgets import QApplication
+import email, smtplib, ssl
+from email import encoders
+from email.mime.base import MIMEBase
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 from pprint import pprint
 import requests
 app=Flask(__name__)
@@ -121,9 +127,9 @@ def get_dpi_current_device():
 #Sending Email with Total Score
 @app.route('/total_score')
 def send_mail():
-	print()
+	print("Api called")
 
-	if ('name' in request.args and 'email' in request.args and 'distance' in request.args and 'age' in request.args and 'mobile_no' in request.args and 'gender' in request.args and 'chart_type' in request.args and 'left_eye' in request.args and 'right_eye' in request.args) and 'send_mail' in request.args:
+	if ('name' in request.args and 'email' in request.args and 'distance' in request.args and 'age' in request.args and 'mobile_no' in request.args and 'gender' in request.args and 'chart_type' in request.args and 'left_eye' in request.args and 'right_eye' in request.args):
 		print("changes made")
 		name=str(request.args['name'])
 		email=str(request.args['email'])
@@ -170,7 +176,7 @@ def send_mail():
 				'''.format(name=name,distance=distance,age=age,gender=gender,chart_type=chart_type,left_eye=left_eye,right_eye=right_eye)
 		pprint(body)
 		receiver_email = email
-		sender_email = "kartik.chawda@somaiya.edu"
+		sender_email = "chawdakartik1@gmail.com"
 		password = 'dhwani01101999'
 
 		# Create a multipart message and set headers
@@ -189,7 +195,7 @@ def send_mail():
 		    server.login(sender_email, password)
 		    server.sendmail(sender_email, receiver_email, text)
 		
-		insert_into_db(name,email,age,mobile_no,gender,chart_type,left_eye,right_eye,distance)
+		# insert_into_db(name,email,age,mobile_no,gender,chart_type,left_eye,right_eye,distance)
 		send_sms(msg="Hello your left eye acuity is {left_eye} and your right eye acuity is {right_eye}".format(left_eye=left_eye,right_eye=right_eye))
 		return jsonify({'status':'success'})
 	else:
