@@ -1,8 +1,7 @@
-from PIL import Image, ImageDraw, ImageFont
 import socket
 import sys
 from flask import Flask,jsonify,request
-from PyQt5.QtWidgets import QApplication
+import pymongo
 import email, smtplib, ssl
 from email import encoders
 from email.mime.base import MIMEBase
@@ -12,7 +11,12 @@ from pprint import pprint
 import requests
 app=Flask(__name__)
 
-#socket
+# Credentials
+sender_email = "chawdakartik1@gmail.com"
+password = 'dhwani01101999'
+mongo_url = "mongodb://root:0LONzSmXMGrz@52.66.200.43:27017/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false"
+
+
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.connect(("8.8.8.8", 80))
 dynamic_ipv4=str(s.getsockname()[0])
@@ -29,7 +33,8 @@ server.listen(1)
 
 connection, address = server.accept()
 
-#api route with parameters
+
+
 @app.route("/")
 def call_function():
 	if "distance" and "position" and "dpi" and "chart_type" in request.args:
@@ -54,24 +59,16 @@ def calculate_size(distance,accuity): #accuity : 6/6,6/12  #distance in m from t
 def render_letter(position=0,dpi=352,distance=6,chart_type='english'):
 	if chart_type=='english':
 		chart_letter=['E','F','P','T','O','Z','L','P','E','D','P','E','C','F','D','E','D','F','C','Z','P','F','E','L','O','P','Z','D','D','E','F','P','O','T','E','C']
+		# chart_letter=['K','V','P','T','O','Z','L','P','E','D','P','E','C','F','D','E','D','F','C','Z','P','F','E','L','O','P','Z','D','D','E','F','P','O','T','E','C']
 		accuit=[0.10,0.20,0.20,0.28,0.28,0.28,0.40,0.40,0.40,0.40,0.50,0.50,0.50,0.50,0.50,0.66,0.66,0.66,0.66,0.66,0.66,0.8,0.8,0.8,0.8,0.8,0.8,0.8,1,1,1,1,1,1,1,1]
 		letter=chart_letter[position]
 		# print(letter)
 		length_in_cm=calculate_size(distance,accuit[position])
 		length_in_inch=length_in_cm/2.54
 		print(length_in_cm,"cm size to be displayed",accuit[position],"is the acuity",dpi,"is the dpi",distance,"is the distance")
-		# dpix=get_dpi_current_device()
-		side=round((length_in_cm/2.54)*dpi)
-		# # print(side)
-		# # print(side*2.2)
 
-		# img = Image.new('RGB',(side,side), color = (255, 255, 255))
-		 
-		# fnt = ImageFont.truetype('D:\Downloads\snellenmk-optotype-font\snellen-mk\Snellen.ttf', side)
-		# d = ImageDraw.Draw(img)
-		# d.text((0,0), letter, font=fnt, fill=(0, 0, 0),anchor=None) 
-		 
-		# img.save('static/images/{letter}.jpg'.format(letter=letter))
+		side=round((length_in_cm/2.54)*dpi)
+
 		imgUrl=str(position)
 		imgUrl='http://{dynamic_ipv4}:1234/static/images/{letter}.jpgrandom6{length_in_inch}'.format(dynamic_ipv4=dynamic_ipv4,letter=letter,length_in_inch=length_in_inch)
 		print(imgUrl)
@@ -90,7 +87,7 @@ def render_letter(position=0,dpi=352,distance=6,chart_type='english'):
 		length_in_cm=calculate_size(distance,accuit[position])
 		length_in_inch=length_in_cm/2.54
 		print(length_in_cm,"cm size to be displayed",accuit[position],"is the acuity",dpi,"is the dpi",distance,"is the distance")
-		# dpix=get_dpi_current_device()
+	
 		side=round((length_in_cm/2.54)*dpi)
 		
 		imgUrl='http://{dynamic_ipv4}:1234/static/images/land/{letter}.pngrandom6{length_in_inch}'.format(dynamic_ipv4=dynamic_ipv4,letter=letter,length_in_inch=length_in_inch)
@@ -116,18 +113,16 @@ def render_letter(position=0,dpi=352,distance=6,chart_type='english'):
 		connection.send(len(url).to_bytes(2,byteorder='big'))
 		connection.send(url)
 		return letter,length_in_inch,accuit[position]
-
-#Getting Device DPI
 def get_dpi_current_device():
-	app = QApplication(sys.argv)
-	screen = app.screens()[0]
-	dpi = screen.physicalDotsPerInch()
+
+	dpi = 256
 	return dpi
 
-#Sending Email with Total Score
+
+
 @app.route('/total_score')
 def send_mail():
-	print("Api called")
+	print()
 
 	if ('name' in request.args and 'email' in request.args and 'distance' in request.args and 'age' in request.args and 'mobile_no' in request.args and 'gender' in request.args and 'chart_type' in request.args and 'left_eye' in request.args and 'right_eye' in request.args):
 		print("changes made")
@@ -142,7 +137,7 @@ def send_mail():
 		distance=float(request.args['distance'])
 		left_eye=left_eye.split('-')
 		right_eye=right_eye.split('-')
-		# print(left_eye,right_eye)
+		
 		if(len(left_eye)==3):
 			left_eye='{numerator}/{denominator}-{minus}'.format(numerator=left_eye[0],denominator=left_eye[1],minus=left_eye[2])
 		elif(len(left_eye)==2):
@@ -157,7 +152,6 @@ def send_mail():
 			right_eye = "please consult a doctor."
 
 
-		# print(name,email,age,mobile_no,gender,chart_type,left_eye,right_eye)
 		if(email==''):
 			print("Email is not provided")
 			return jsonify({'status':'success'})
@@ -172,14 +166,11 @@ def send_mail():
 				Left Eye Score:{left_eye}
 				Right Eye Score:{right_eye}
 				Thank You for visiting Us
-				Team MVA-3
+				Team SecureVision
 				'''.format(name=name,distance=distance,age=age,gender=gender,chart_type=chart_type,left_eye=left_eye,right_eye=right_eye)
 		pprint(body)
 		receiver_email = email
-		sender_email = "chawdakartik1@gmail.com"
-		password = 'dhwani01101999'
-
-		# Create a multipart message and set headers
+		
 		message = MIMEMultipart()
 		message["From"] = sender_email
 		message["To"] = receiver_email
@@ -195,12 +186,20 @@ def send_mail():
 		    server.login(sender_email, password)
 		    server.sendmail(sender_email, receiver_email, text)
 		
-		# insert_into_db(name,email,age,mobile_no,gender,chart_type,left_eye,right_eye,distance)
-		send_sms(msg="Hello your left eye acuity is {left_eye} and your right eye acuity is {right_eye}".format(left_eye=left_eye,right_eye=right_eye))
+		insert_into_db(name,email,age,mobile_no,gender,chart_type,left_eye,right_eye,distance)
+		
 		return jsonify({'status':'success'})
 	else:
 		print("All parameters not received in mail function")
 		return jsonify({'status':'failed'})
 
+
+
+def insert_into_db(name,email,age,mobile_no,gender,chart_type,left_eye,right_eye,distance):
+	myclient = pymongo.MongoClient(mongo_url)
+	mydb = myclient["SecureVision"]
+	mycol = mydb["MVA"]
+	mydict={"name":name,"email":email,"mobile_no":mobile_no,"gender":gender,"chart_type":chart_type,"left_eye":left_eye,"right_eye":right_eye,"distance":distance}
+	x = mycol.insert_one(mydict)
 if __name__=='__main__':
 	app.run(debug=False,port=1234,host='0.0.0.0',threaded=True)
