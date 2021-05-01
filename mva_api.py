@@ -12,9 +12,9 @@ import requests
 app=Flask(__name__)
 
 # Credentials
-sender_email = "chawdakartik1@gmail.com"
-password = 'dhwani01101999'
-mongo_url = "mongodb://root:0LONzSmXMGrz@52.66.200.43:27017/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false"
+sender_email = "YOUR_EMAIL_ADDRESS"
+password = 'YOUR_PASSWORD'
+mongo_url = "YOUR_MONGODB_URL"
 
 
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
